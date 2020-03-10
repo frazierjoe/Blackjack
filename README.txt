@@ -8,3 +8,6 @@ A description of the creative portion of the assignment
 * Describe your feature
 * Why did you choose this feature?
 * How did you implement it?
+
+# Creative Portion Ideas
+* Profile pictures
