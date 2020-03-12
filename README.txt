@@ -13,4 +13,5 @@ A description of the creative portion of the assignment
 * Profile pictures
 
 # Links 
+Animating card flips
 https://developer.android.com/training/animation/reveal-or-hide-view#Cardflip
