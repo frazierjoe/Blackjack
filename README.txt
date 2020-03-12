@@ -11,3 +11,6 @@ A description of the creative portion of the assignment
 
 # Creative Portion Ideas
 * Profile pictures
+
+# Links 
+https://developer.android.com/training/animation/reveal-or-hide-view#Cardflip
