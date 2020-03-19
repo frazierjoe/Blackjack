@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "656569153532",
+    "firebase_url": "https://cse438assignment4-joe-jacob.firebaseio.com",
+    "project_id": "cse438assignment4-joe-jacob",
+    "storage_bucket": "cse438assignment4-joe-jacob.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656569153532:android:0d1ae51b088d2c53a4a479",
+        "android_client_info": {
+          "package_name": "com.example.cse438.cse438_assignment4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656569153532-gu0ut83m54u1oavsm5r42udd0gurpbib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABDy7iWhJYw0rNi9Tu3hzX04exAGJGImE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656569153532-gu0ut83m54u1oavsm5r42udd0gurpbib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
