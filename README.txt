@@ -8,3 +8,10 @@ A description of the creative portion of the assignment
 * Describe your feature
 * Why did you choose this feature?
 * How did you implement it?
+
+# Creative Portion Ideas
+* Profile pictures
+
+# Links 
+Animating card flips
+https://developer.android.com/training/animation/reveal-or-hide-view#Cardflip
