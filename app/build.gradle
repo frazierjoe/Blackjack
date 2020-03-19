@@ -15,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true //This in defaultConfig
     }
     buildTypes {
         release {
@@ -30,11 +31,26 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.firebase:firebase-auth:16.0.5'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    //Firebase
+
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+
+    // Firestore
+    implementation 'com.google.firebase:firebase-firestore:21.4.0'
+
+    // Other Firebase/Play services deps
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    //FirebaseUI (for auth)
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
+
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
+    testImplementation 'junit:junit:4.12'
+
+    //support libs
+    implementation 'com.android.support:multidex:1.0.3' //This in dependencies
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
