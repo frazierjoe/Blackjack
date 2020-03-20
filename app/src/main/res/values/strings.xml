@@ -6,7 +6,7 @@
     <string name="name_placeholder">Doug</string>
     <string name="losses">Losses: </string>
     <string name="logout">Logout</string>
-    <string name="chips">Chips</string>
+    <string name="chips">Chips: </string>
     <string name="leaderboard">Leaderboard</string>
     <string name="unknown">Unknown</string>
     <string name="bet_amount">Bet Amount</string>

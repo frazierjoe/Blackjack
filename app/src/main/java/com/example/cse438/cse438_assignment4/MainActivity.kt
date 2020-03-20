@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             .setAvailableProviders((listOf(AuthUI.IdpConfig.EmailBuilder().build())))
             .setIsSmartLockEnabled(false)
             .build()
-
         startActivityForResult(intent, RC_SIGN_IN)
         viewModel.isSigningIn = true
     }
