@@ -184,7 +184,7 @@
         android:id="@+id/dealer"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -193,10 +193,12 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="75dp"
+            android:src="@drawable/back"
             />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="75dp"
+            android:src="@drawable/back"
             />
     </LinearLayout>
 
@@ -205,25 +207,52 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
 
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="30dp"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dealer"
         >
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="75dp"-->
-<!--            android:src="@drawable/back"/>-->
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="75dp"-->
-<!--            android:src="@drawable/back"/>-->
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="75dp"-->
-<!--            android:src="@drawable/back"/>-->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:src="@drawable/back"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:src="@drawable/back"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/value_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:textSize="20sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:text="@string/value" />
+
+        <TextView
+            android:id="@+id/value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:text="@string/number_placeholder" />
     </LinearLayout>
 
 
@@ -235,7 +264,7 @@
         android:layout_margin="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player">
+        app:layout_constraintTop_toBottomOf="@+id/value_container">
         <EditText
             android:id="@+id/bet_input"
             android:inputType="numberSigned"

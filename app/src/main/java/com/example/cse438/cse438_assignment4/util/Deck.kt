@@ -4,7 +4,8 @@ import android.content.Context
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 
-data class Deck(var cardList: ArrayList<Int>){
+
+data class Deck(var cardList: ArrayList<Int> = ArrayList()){
 
     //Recreated the cardList with numberOfDecks decks
     fun newDecks(context: Context, numberOfDecks: Int){
@@ -23,6 +24,7 @@ data class Deck(var cardList: ArrayList<Int>){
         cardList.removeAt(randomCardIndex)
         return nextCard
     }
+
 
 }
 

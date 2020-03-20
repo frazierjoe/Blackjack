@@ -1,9 +1,15 @@
 package com.example.cse438.cse438_assignment4
 
+import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import androidx.lifecycle.ViewModelProviders
+import com.example.cse438.cse438_assignment4.util.Deck
+import com.example.cse438.cse438_assignment4.util.Game
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -26,6 +32,12 @@ class MainActivity : AppCompatActivity() {
 //        query = firestore.collection("players")
 //            .orderBy("chipCount", Query.Direction.DESCENDING)
 //            .limit(20)
+
+
+        var game = Game()
+        game.newGame(this, 8)
+
+
     }
 
     public override fun onStart() {
@@ -59,4 +71,6 @@ class MainActivity : AppCompatActivity() {
 
         private const val LIMIT = 20
     }
+
+
 }
