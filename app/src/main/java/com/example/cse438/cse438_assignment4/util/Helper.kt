@@ -1,6 +1,7 @@
 package com.example.cse438.cse438_assignment4.util
 
 import android.content.Context
+import android.util.Log
 
 fun getCardName(context: Context, id: Int):String{
     val name = context.resources.getResourceEntryName(id)
@@ -64,4 +65,19 @@ fun getCardValue(context: Context, id: Int): Int{
 
     }
     return 0
+}
+fun formatHandValues(hand: Hand): String{
+    var str=""
+    var max = hand.handValues.size-1
+    for(x in 0..max){//For each handValue
+        var temp = hand.handValues[x]
+        if(x == 0){//if first value in the hand, add value to string
+            str += temp.toString()
+        }
+        else if(temp < 22) {//Otherwise add to string with slash if under 22
+            str += "/" +temp.toString()
+        }
+
+    }
+    return str
 }

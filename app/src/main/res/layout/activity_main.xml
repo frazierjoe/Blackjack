@@ -24,10 +24,11 @@
             android:text="@string/leaderboard" />
 
         <Button
+            android:id="@+id/logout_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/unknown" />
+            android:text="logout" />
 
     </LinearLayout>
     <LinearLayout
@@ -42,13 +43,16 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_holder">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.60">
+            android:layout_gravity="center"
+            >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center"
                 android:layout_marginRight="5dp"
                 android:textColor="@color/text"
                 android:textStyle="bold"
@@ -57,20 +61,17 @@
 
             <TextView
                 android:id="@+id/playerName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:text="@string/name_placeholder"
                 android:textColor="@color/text"
                 android:textStyle="bold"
                 android:textSize="20sp" />
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/logout_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:text="logout" />
 
 
     </LinearLayout>
@@ -180,6 +181,8 @@
             android:src="@drawable/back"/>
     </LinearLayout>
 
+
+
     <LinearLayout
         android:id="@+id/dealer"
         android:layout_width="match_parent"
@@ -191,16 +194,93 @@
         app:layout_constraintTop_toBottomOf="@+id/deck"
         >
         <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/dealer1"
+            android:layout_width="55dp"
             android:layout_height="75dp"
-            android:src="@drawable/back"
+
             />
         <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/dealer2"
+            android:layout_width="55dp"
             android:layout_height="75dp"
-            android:src="@drawable/back"
+            android:layout_marginLeft="-35dp"
+
+            />
+        <ImageView
+            android:id="@+id/dealer3"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+
+            />
+        <ImageView
+            android:id="@+id/dealer4"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/dealer5"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/dealer6"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/dealer7"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/dealer8"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/dealer9"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/dealer10"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/dealer11"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/dealer12"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/dealer13"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/dealer14"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
             />
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/player"
@@ -215,15 +295,92 @@
         app:layout_constraintTop_toBottomOf="@+id/dealer"
         >
         <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/player1"
+            android:layout_width="55dp"
             android:layout_height="75dp"
-            android:src="@drawable/back"/>
+            />
         <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/player2"
+            android:layout_width="55dp"
             android:layout_height="75dp"
-            android:src="@drawable/back"/>
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player3"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player4"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player5"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player6"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player7"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player8"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player9"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player10"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player11"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player12"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player13"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+        <ImageView
+            android:id="@+id/player14"
+            android:layout_width="55dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="-35dp"
+            />
+
 
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/value_container"
@@ -243,7 +400,7 @@
             android:textSize="20sp"
             android:textColor="@color/text"
             android:textStyle="bold"
-            android:text="@string/value" />
+            android:text="@string/player_value" />
 
         <TextView
             android:id="@+id/value"
@@ -256,32 +413,13 @@
     </LinearLayout>
 
 
-
-    <LinearLayout
-        android:id="@+id/bet"
+    <FrameLayout
+        android:id="@+id/bet_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/value_container">
-        <EditText
-            android:id="@+id/bet_input"
-            android:inputType="numberSigned"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/bet_amount"
-            android:textColorHint="@color/text"
-            android:textColor="@color/text"
-            android:textStyle="bold"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="@string/bet"
-            />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/value_container"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

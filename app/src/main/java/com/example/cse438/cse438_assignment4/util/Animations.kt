@@ -19,4 +19,5 @@ fun moveCardToPlayerHand (id: Int){
 //
 //
 //    imageView.layoutParams = LinearLayout.LayoutParams
+
 }

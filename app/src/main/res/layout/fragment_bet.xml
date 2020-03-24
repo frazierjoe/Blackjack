@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.BetFragment">
+
+    <LinearLayout
+        android:id="@+id/bet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/value_container">
+        <EditText
+            android:id="@+id/bet_input"
+            android:inputType="numberSigned"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/bet_amount"
+            android:textColorHint="@color/text"
+            android:textColor="@color/text"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/submit_bet_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/bet"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>
