@@ -1,12 +1,5 @@
 package com.example.cse438.cse438_assignment4.util
 
-import android.R
-import android.app.Activity
-import android.content.Context
-import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 
 
 

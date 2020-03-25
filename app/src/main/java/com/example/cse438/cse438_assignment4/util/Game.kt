@@ -1,10 +1,7 @@
 package com.example.cse438.cse438_assignment4.util
 
 import android.content.Context
-import android.widget.Toast
-import com.example.cse438.cse438_assignment4.MainActivity
-import com.example.cse438.cse438_assignment4.R
-import com.example.cse438.cse438_assignment4.fragments.BetFragment
+
 
 
 data class Game(var deck: Deck = Deck(), var dealerHand: Hand = Hand(), var playerHand: Hand = Hand()){

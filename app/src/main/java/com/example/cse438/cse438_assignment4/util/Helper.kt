@@ -1,7 +1,7 @@
 package com.example.cse438.cse438_assignment4.util
 
 import android.content.Context
-import android.util.Log
+
 
 //Returns the card name ex: clubs10, spades_queen
 fun getCardName(context: Context, id: Int):String{
