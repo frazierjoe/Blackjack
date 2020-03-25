@@ -10,9 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.cse438.cse438_assignment4.MainActivity
 import com.example.cse438.cse438_assignment4.R
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bet.*
 
-
+var chipC : Int? = 0
 
 class BetFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(
@@ -27,6 +28,11 @@ class BetFragment : Fragment(), View.OnClickListener {
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        chipC = arguments?.getInt("chip count")
+    }
+
     //Submits bet and calls the betCallback in MainActivity
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -34,13 +40,21 @@ class BetFragment : Fragment(), View.OnClickListener {
                 var bet = bet_input.text.toString()
                 if (bet != "") {
                     var betNum = bet.toInt()
-                    (activity as MainActivity?)!!.betCallback(betNum)
-                    activity!!.supportFragmentManager.beginTransaction().remove(this).commit()
-
+                    if(betNum <= chipC!!) {
+                        (activity as MainActivity?)!!.betCallback(betNum)
+                        activity!!.supportFragmentManager.beginTransaction().remove(this).commit()
+                    }
+                    else{
+                        Toast.makeText(
+                            getContext(),
+                            "Please only bet as many chips as you have (or less)",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 } else {
                     Toast.makeText(
                         getContext(),
-                        "Enter a valid number of chips.",
+                        "Please enter a valid number of chips.",
                         Toast.LENGTH_LONG
                     ).show()
                 }

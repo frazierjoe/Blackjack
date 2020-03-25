@@ -19,6 +19,7 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.ViewModelProviders
 import com.example.cse438.cse438_assignment4.fragments.BetFragment
 import com.example.cse438.cse438_assignment4.util.Game
+import com.example.cse438.cse438_assignment4.util.Hand
 import com.example.cse438.cse438_assignment4.util.formatHandValues
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     private var bet : Int = 0
     private var curBet : Int = 0
     private var chipCount : Int = 1000 //if this is changed, also update strings file for chip_placeholder
+    //private lateinit var dealerHand : Hand
     private lateinit var viewModel: MainActivityViewModel
     lateinit var firestore: FirebaseFirestore
     lateinit var query: Query
@@ -132,6 +134,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         val fragment = BetFragment()
+        var bundle = Bundle()
+        bundle.putInt("chip count", chipCount)
+        fragment.arguments = bundle
         fragmentTransaction.add(R.id.bet_fragment_container, fragment)
         fragmentTransaction.commit()
         return bet
@@ -218,11 +223,31 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         var isDealerTurn = true
         //flip card
         flipDealerCard()
-        if(game.dealerHand.handValues[0] == 21){ //If dealer dealt 21 they win
+
+//        if(game.dealerHand.bestHand == 21){ //If dealer dealt 21 they win
+//            playerLost()
+//        }
+//        while(game.dealerHand.bestHand <= 17){//If under 18 hit
+//            dealCard(isPlayerTurn, isDealerTurn)
+//        }
+
+        if(game.dealerHand.bestHand == 21){
             playerLost()
         }
-        while(game.dealerHand.handValues[0] <= 17){//If under 18 hit
-            dealCard(isPlayerTurn, isDealerTurn)
+
+        while(game.dealerHand.playableHands > 0 && (game.dealerHand.bestHand < 17 || (game.dealerHand.bestHand == 17 && game.dealerHand.playableHands > 1))) {
+            if (game.dealerHand.numAces > 0) {
+                if (game.dealerHand.bestHand < 17) {
+                    dealCard(isPlayerTurn, isDealerTurn)
+                } else if (game.dealerHand.bestHand == 17 && game.dealerHand.playableHands > 1) {
+                    dealCard(isPlayerTurn, isDealerTurn)
+                } else {
+                    break
+                }
+            }
+            else {
+                dealCard(isPlayerTurn, isDealerTurn)
+            }
         }
         findWinner()
     }
@@ -241,11 +266,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
                 maxDealer = game.dealerHand.handValues[y]
             }
         }
-        if(maxDealer >= maxPlayer){
+        if(maxDealer > maxPlayer){
             playerLost()
         }
-        else{
+        else if(maxDealer < maxPlayer){
             playerWon()
+        }
+        else{
+            playerPush()
         }
     }
 
@@ -277,18 +305,27 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
     //Alert the player that they won, show dealer's cards
     fun playerLost(){
-        Toast.makeText(this, "You lost, new game starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
+        Toast.makeText(this, "You lost, new hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
         //TODO add loss to player stats, update the stats bar (Chips should already be removed from when they bet)
         var playerLost = true
         flipDealerCard()
         Handler().postDelayed(this::startGame, 5000)
     }
 
-    //Alert the player that they won,
+    //Alert the player that they won
     fun playerWon(){
-        Toast.makeText(this, "You won! New game starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
+        Toast.makeText(this, "You won! New hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
         //TODO add win to player stats, update the stats bar, add chips
         chipCount= (chipCount + 2*curBet)
+        chips.text = chipCount.toString()
+        Handler().postDelayed(this::startGame, 5000)
+    }
+
+    //Alert the player that they pushed
+    fun playerPush(){
+        Toast.makeText(this, "Push. New hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
+        //TODO add push to player stats, update the stats bar, add chips
+        chipCount= (chipCount + curBet)
         chips.text = chipCount.toString()
         Handler().postDelayed(this::startGame, 5000)
     }
