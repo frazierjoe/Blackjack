@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/table">
+    android:background="@color/table"
+    android:id="@+id/body">
 
 
     <LinearLayout
@@ -176,10 +177,20 @@
         app:layout_constraintTop_toBottomOf="@+id/stats"
         >
         <ImageView
+            android:id="@+id/deckCard"
             android:layout_width="wrap_content"
             android:layout_height="75dp"
             android:src="@drawable/back"/>
+
     </LinearLayout>
+    <ImageView
+        android:id="@+id/animate_this"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:src="@drawable/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/deck"/>
 
 
 

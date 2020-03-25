@@ -27,8 +27,8 @@ class BetFragment : Fragment(), View.OnClickListener {
 
     }
 
+    //Submits bet and calls the betCallback in MainActivity
     override fun onClick(v: View?) {
-
         when (v?.id) {
             R.id.submit_bet_btn -> {
                 var bet = bet_input.text.toString()

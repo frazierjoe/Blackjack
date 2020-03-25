@@ -3,11 +3,13 @@ package com.example.cse438.cse438_assignment4.util
 import android.content.Context
 import android.util.Log
 
+//Returns the card name ex: clubs10, spades_queen
 fun getCardName(context: Context, id: Int):String{
     val name = context.resources.getResourceEntryName(id)
     return name
 }
 
+//Returns a formatted card name ex: 10 of Clubs, Queen of Spades
 fun getFormattedCardName(context: Context, id: Int):String{
     var unformattedName = getCardName(context, id)
 
@@ -30,6 +32,7 @@ fun getFormattedCardName(context: Context, id: Int):String{
     return name
 }
 
+//Maps cards to values and returns the card value
 fun getCardValue(context: Context, id: Int): Int{
 
     var unformattedName = getCardName(context, id)
@@ -66,6 +69,8 @@ fun getCardValue(context: Context, id: Int): Int{
     }
     return 0
 }
+
+//Returns the hand values under 21 sepearated by a "/" ex.) 21, 9/20
 fun formatHandValues(hand: Hand): String{
     var str=""
     var max = hand.handValues.size-1

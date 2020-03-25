@@ -4,6 +4,8 @@ import android.content.Context
 
 
 data class Hand(var cardList: ArrayList<Int> = ArrayList(), var handValues: ArrayList<Int> = ArrayList()){
+
+    //Calculates possible values and updates the handValues arrayList
     fun updateHandValue(context: Context){
         var tempHandValue=0
         var numAces= 0

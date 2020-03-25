@@ -17,6 +17,7 @@ data class Deck(var cardList: ArrayList<Int> = ArrayList()){
         }
     }
 
+    //Return a random card from the deck
     fun getCard(): Int{
         var numberOfCardsLeft = cardList.size
         var randomCardIndex = (0..numberOfCardsLeft-1).random()

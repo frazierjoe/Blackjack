@@ -1,14 +1,20 @@
 package com.example.cse438.cse438_assignment4
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.ViewModelProviders
 import com.example.cse438.cse438_assignment4.fragments.BetFragment
@@ -21,7 +27,7 @@ import com.google.firebase.firestore.Query
 
 
 
-private const val DEBUG_TAG = "Gestures"
+
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     GestureDetector.OnDoubleTapListener {
 
@@ -43,10 +49,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 //        query = firestore.collection("players")
 //            .orderBy("chipCount", Query.Direction.DESCENDING)
 //            .limit(20)
-        mDetector = GestureDetectorCompat(this, this)
 
+        //Gestures
+        mDetector = GestureDetectorCompat(this, this)
         mDetector.setOnDoubleTapListener(this)
-//        mDetector.setOnDoubleTapListener(this)
 
         startGame()
 
@@ -82,23 +88,81 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         private const val RC_SIGN_IN = 9002
 
         private const val LIMIT = 20
+
+        private const val DEBUG_TAG = "Gestures"
     }
 
+
+    //Set intial game conditions
     fun startGame(){
-        clearGame()
+        resetImages()
         betPlaced=false
         game = Game()
-        game.newGame(this, 8)
-
-        dealInitialCards(game)
-
+        game.newGame(this, 8) //Generate deck
+        dealInitialCards()
         requestBet(game)
-
         updatePlayerValue()
     }
 
-    fun setBackgroundImage(isPlayer: Boolean, game: Game, cardId: Int, isDealerTurn: Boolean){
+    //Initialize cards to be transparent
+    fun resetImages(){
+        var parent: LinearLayout = findViewById(R.id.player)
+        for(x in 0..13){
+            var imageView = parent.getChildAt(x)
+            imageView.setBackgroundResource(android.R.color.transparent)
+        }
+        parent = findViewById(R.id.dealer)
+        for(x in 0..13){
+            var imageView = parent.getChildAt(x)
+            imageView.setBackgroundResource(android.R.color.transparent)
+        }
 
+    }
+
+    //Deal the intial 4 cards
+    fun dealInitialCards(){
+        dealCard(true,false)
+        dealCard(false, false)
+        dealCard(true,false)
+        dealCard(false, false)
+    }
+
+    //Start bet activity so user can input a bet
+    fun requestBet(game: Game): Int{
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        val fragment = BetFragment()
+        fragmentTransaction.add(R.id.bet_fragment_container, fragment)
+        fragmentTransaction.commit()
+        var bet = 0
+        return bet
+    }
+
+    //Display the players hand value
+    fun updatePlayerValue(){
+        var textBox = findViewById<TextView>(R.id.value)
+        var playerValue = formatHandValues(game.playerHand)
+        textBox.text = playerValue
+        checkIfPlayerBust()
+    }
+
+    //Adds card to player hand object and calls setBackgroundImage() to update hand view
+    fun dealCard(isPlayer: Boolean, isDealerTurn: Boolean){
+        var cardId: Int
+        if(isPlayer){
+            cardId = game.dealCard(this, game.playerHand)
+        }
+        else{
+            cardId = game.dealCard(this, game.dealerHand)
+        }
+        if(!isDealerTurn) {
+            setBackgroundImage(isPlayer, game, cardId, false)
+        }
+        else setBackgroundImage(isPlayer, game, cardId, true)
+    }
+
+    //Get card id and update the hand display
+    fun setBackgroundImage(isPlayer: Boolean, game: Game, cardId: Int, isDealerTurn: Boolean){
         var viewId: Int
         var parent: LinearLayout
         var dealerFirstCard = false
@@ -113,48 +177,44 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
                 dealerFirstCard = true
             }
         }
-
         var imageView = parent.getChildAt(viewId)
-        if(dealerFirstCard){
-            imageView.setBackgroundResource(R.drawable.back)
+
+        var animatedView = ImageView(this)
+        var layout = findViewById<ConstraintLayout>(R.id.body)
+        layout.addView(animatedView)
+        animatedView.layoutParams.height = 205
+        animatedView.layoutParams.width = 150
+        animatedView.x = 465F
+        animatedView.y = 420F
+        animatedView.setBackgroundResource(R.drawable.back)
+
+        animatedView.bringToFront()
+
+        var animation1 = ObjectAnimator.ofFloat(animatedView, "translationX", -355f).apply{
+            duration = 2000
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    if(dealerFirstCard){
+                        imageView.setBackgroundResource(R.drawable.back)
+                    }
+                    else {
+                        imageView.setBackgroundResource(cardId)
+                    }
+                }
+            })
         }
-        else {
-            imageView.setBackgroundResource(cardId)
+        var animation2 = ObjectAnimator.ofFloat(animatedView, "translationY", 654f).apply{ duration=2000}
+        var hide = ObjectAnimator.ofFloat(animatedView, "alpha", 1f, 0f).apply{duration=20}
+        AnimatorSet().apply{
+            play(animation1).with(animation2)
+            play(hide).after(animation1)
+            start()
         }
+
     }
 
-    fun clearGame(){
-        var parent: LinearLayout = findViewById(R.id.player)
-        for(x in 0..13){
-            var imageView = parent.getChildAt(x)
-            imageView.setBackgroundResource(android.R.color.transparent)
-        }
-        parent = findViewById(R.id.dealer)
-        for(x in 0..13){
-            var imageView = parent.getChildAt(x)
-            imageView.setBackgroundResource(android.R.color.transparent)
-        }
-
-    }
-
-    fun dealInitialCards(game: Game){
-        //Deal initial cards
-        var isPlayer:Boolean
-        for(x in 0..3){
-            if (x%2 == 0) {
-                isPlayer = true
-                dealCard(isPlayer,false)
-                //TODO animate card movement
-            }
-            else {
-                //TODO animate card movement
-                isPlayer = false
-                dealCard(isPlayer, false)
-            }
-        }
-    }
+    //Logic for the dealer's turn
     fun dealerTurn(){
-        game.dealerHand.updateHandValue(this)
         var isPlayerTurn = false
         var isDealerTurn = true
         //flip card
@@ -167,6 +227,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         }
         findWinner()
     }
+
+    //Compute who won
     fun findWinner(){
         var maxDealer = 0
         var maxPlayer = 0
@@ -187,41 +249,29 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
             playerWon()
         }
     }
+
+    //Flip the dealers card that was initially face down
     fun flipDealerCard(){
         var parent: LinearLayout = findViewById(R.id.dealer)
         var cardId = game.dealerHand.cardList[1]
         var imageView = parent.getChildAt(1)
         imageView.setBackgroundResource(cardId)
     }
-    fun requestBet(game: Game): Int{
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        val fragment = BetFragment()
-        fragmentTransaction.add(R.id.bet_fragment_container, fragment)
-        fragmentTransaction.commit()
-        var bet = 0
-        return bet
-    }
 
+    //gets called when the bet fragment is closed (when a bet is placed)
     fun betCallback(bet: Int){
         betPlaced=true
         //TODO UPDATE CHIPS
     }
 
-    fun updatePlayerValue(){
-        var textBox = findViewById<TextView>(R.id.value)
-        game.playerHand.updateHandValue(this)
-        var playerValue = formatHandValues(game.playerHand)
-        textBox.text = playerValue
-        //TODO CHECK VALUES
-        checkIfPlayerBust()
-    }
+    //Checks if player is over 21
     fun checkIfPlayerBust(){
         if(game.playerHand.handValues[0] > 21){ //If player lost
             playerLost()
         }
     }
 
+    //Alert the player that they won, show dealer's cards
     fun playerLost(){
         Toast.makeText(this, "You lost, new game starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
         //TODO add loss to player stats, update the stats bar (Chips should already be removed from when they bet)
@@ -229,27 +279,15 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         flipDealerCard()
         Handler().postDelayed(this::startGame, 5000)
     }
+
+    //Alert the player that they won,
     fun playerWon(){
         Toast.makeText(this, "You won! New game starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
         //TODO add win to player stats, update the stats bar, add chips
         Handler().postDelayed(this::startGame, 5000)
     }
 
-    fun dealCard(isPlayer: Boolean, isDealerTurn: Boolean){
-        var cardId: Int
-        if(isPlayer){
-            cardId = game.dealCard(this, game.playerHand)
-        }
-        else{
-            cardId = game.dealCard(this, game.dealerHand)
-        }
-        if(!isDealerTurn) {
-            setBackgroundImage(isPlayer, game, cardId, false)
-        }
-        else setBackgroundImage(isPlayer, game, cardId, true)
-    }
-
-
+    //Motion Events below
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return if (mDetector.onTouchEvent(event)) {
             true
@@ -274,7 +312,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     }
 
     override fun onLongPress(event: MotionEvent) {
-        dealerTurn()
+        if(betPlaced) {
+            dealerTurn()
+        }
+        else{
+            Toast.makeText(this, "Must place a bet before you can proceed", Toast.LENGTH_LONG).show()
+        }
         Log.d(DEBUG_TAG, "onLongPress: $event")
     }
 
