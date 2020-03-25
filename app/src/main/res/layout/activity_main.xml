@@ -161,7 +161,7 @@
                 android:textSize="20sp"
                 android:textColor="@color/text"
                 android:textStyle="bold"
-                android:text="@string/number_placeholder" />
+                android:text="@string/chip_placeholder" />
         </LinearLayout>
     </LinearLayout>
 

@@ -24,14 +24,16 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-
-
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     GestureDetector.OnDoubleTapListener {
 
     private var betPlaced = false
+    private var bet : Int = 0
+    private var curBet : Int = 0
+    private var chipCount : Int = 1000 //if this is changed, also update strings file for chip_placeholder
     private lateinit var viewModel: MainActivityViewModel
     lateinit var firestore: FirebaseFirestore
     lateinit var query: Query
@@ -93,15 +95,13 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     }
 
 
-    //Set intial game conditions
+    //Set initial game conditions
     fun startGame(){
         resetImages()
         betPlaced=false
         game = Game()
         game.newGame(this, 8) //Generate deck
-        dealInitialCards()
         requestBet(game)
-        updatePlayerValue()
     }
 
     //Initialize cards to be transparent
@@ -134,7 +134,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         val fragment = BetFragment()
         fragmentTransaction.add(R.id.bet_fragment_container, fragment)
         fragmentTransaction.commit()
-        var bet = 0
         return bet
     }
 
@@ -259,8 +258,13 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     }
 
     //gets called when the bet fragment is closed (when a bet is placed)
-    fun betCallback(bet: Int){
+    fun betCallback(bet2: Int){
         betPlaced=true
+        curBet = bet2
+        chipCount = chipCount - bet2
+        chips.text = chipCount.toString()
+        dealInitialCards()
+        updatePlayerValue()
         //TODO UPDATE CHIPS
     }
 
@@ -284,6 +288,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     fun playerWon(){
         Toast.makeText(this, "You won! New game starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
         //TODO add win to player stats, update the stats bar, add chips
+        chipCount= (chipCount + 2*curBet)
+        chips.text = chipCount.toString()
         Handler().postDelayed(this::startGame, 5000)
     }
 

@@ -3,6 +3,7 @@
     <string name="player_name">Player Name: </string>
     <string name="wins">Wins: </string>
     <string name="number_placeholder">0</string>
+    <string name="chip_placeholder">1000</string>
     <string name="name_placeholder">Doug</string>
     <string name="losses">Losses: </string>
     <string name="logout">Logout</string>
