@@ -85,6 +85,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
         private const val RC_SIGN_IN = 9002
 
+        private const val RC_SIGN_OUT = 9003
+
         private const val LIMIT = 20
 
         private const val DEBUG_TAG = "Gestures"
@@ -355,6 +357,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     fun leaderboard(view: View){
         var leadIntent = Intent(this, ScoreboardActivity::class.java)
         startActivity(leadIntent)
+    }
+
+    fun logout(view: View){
+        AuthUI.getInstance().signOut(this)
+        startSignIn()
     }
 
 
