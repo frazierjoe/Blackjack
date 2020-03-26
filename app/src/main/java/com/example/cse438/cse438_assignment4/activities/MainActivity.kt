@@ -26,9 +26,12 @@ import com.example.cse438.cse438_assignment4.util.Game
 import com.example.cse438.cse438_assignment4.util.formatHandValues
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.example.fireeats.kotlin.adapter.ScoreboardAdapter
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_scoreboard.*
 
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
@@ -40,22 +43,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     private var chipCount : Int = 1000 //if this is changed, also update strings file for chip_placeholder
     //private lateinit var dealerHand : Hand
     private lateinit var viewModel: MainActivityViewModel
-    lateinit var firestore: FirebaseFirestore
-    lateinit var query: Query
     var game = Game()
     private lateinit var mDetector: GestureDetectorCompat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
-
-
-//        firestore = FirebaseFirestore.getInstance()
-//
-//        query = firestore.collection("players")
-//            .orderBy("chipCount", Query.Direction.DESCENDING)
-//            .limit(20)
 
         //Gestures
         mDetector = GestureDetectorCompat(this, this)

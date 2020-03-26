@@ -63,7 +63,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/playerName"
+                android:id="@+id/displayName"
                 android:layout_width="0dp"
                 android:layout_weight="0.5"
                 android:gravity="center"
