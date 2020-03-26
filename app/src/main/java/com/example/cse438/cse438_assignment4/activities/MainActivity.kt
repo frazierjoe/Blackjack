@@ -18,8 +18,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GestureDetectorCompat
-import androidx.lifecycle.ViewModelProviders
-import com.example.cse438.cse438_assignment4.viewmodels.MainActivityViewModel
 import com.example.cse438.cse438_assignment4.R
 import com.example.cse438.cse438_assignment4.fragments.BetFragment
 import com.example.cse438.cse438_assignment4.util.Game
@@ -37,14 +35,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     private var chipCount : Int = 1000 //if this is changed, also update strings file for chip_placeholder
     private var Ws : Int = 0 // same as above
     private var Ls : Int = 0 // same as above
-    private lateinit var viewModel: MainActivityViewModel
     var game = Game()
     private lateinit var mDetector: GestureDetectorCompat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 
         //Gestures
         mDetector = GestureDetectorCompat(this, this)
