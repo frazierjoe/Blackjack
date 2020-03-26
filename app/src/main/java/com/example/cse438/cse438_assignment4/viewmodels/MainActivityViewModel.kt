@@ -1,4 +1,4 @@
-package com.example.cse438.cse438_assignment4
+package com.example.cse438.cse438_assignment4.viewmodels
 
 import androidx.lifecycle.ViewModel
 

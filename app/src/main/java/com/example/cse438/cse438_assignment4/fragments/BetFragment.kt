@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.cse438.cse438_assignment4.MainActivity
+import com.example.cse438.cse438_assignment4.activities.MainActivity
 import com.example.cse438.cse438_assignment4.R
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bet.*
 
 var chipC : Int? = 0
