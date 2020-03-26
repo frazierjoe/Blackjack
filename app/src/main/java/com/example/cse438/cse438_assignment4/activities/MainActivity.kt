@@ -333,7 +333,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         startActivity(leadIntent)
     }
 
-
     //Motion Events below
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return if (mDetector.onTouchEvent(event)) {
