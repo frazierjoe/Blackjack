@@ -25,7 +25,6 @@ import com.example.cse438.cse438_assignment4.fragments.BetFragment
 import com.example.cse438.cse438_assignment4.util.Game
 import com.example.cse438.cse438_assignment4.util.formatHandValues
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -54,38 +53,15 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         startGame()
     }
 
-    public override fun onStart() {
-        super.onStart()
-
-        // Start sign in if necessary
-        if (shouldStartSignIn()) {
-            startSignIn()
-            return
-        }
-    }
-
-    private fun shouldStartSignIn(): Boolean {
-        return !viewModel.isSigningIn && FirebaseAuth.getInstance().currentUser == null
-    }
-
-    private fun startSignIn() {
-        val intent = AuthUI.getInstance().createSignInIntentBuilder()
-            .setAvailableProviders((listOf(AuthUI.IdpConfig.EmailBuilder().build())))
-            .setIsSmartLockEnabled(false)
-            .build()
-        startActivityForResult(intent,
-            RC_SIGN_IN
-        )
-        viewModel.isSigningIn = true
+    fun logout(view: View) {
+        AuthUI.getInstance()
+            .signOut(this)
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     companion object {
 
         private const val TAG = "MainActivity"
-
-        private const val RC_SIGN_IN = 9002
-
-        private const val LIMIT = 20
 
         private const val DEBUG_TAG = "Gestures"
     }

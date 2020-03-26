@@ -10,11 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name="androidx.multidex.MultiDexApplication">
-        <activity android:name=".activities.ScoreboardActivity"></activity>
-        <activity android:name=".activities.MainActivity">
+        <activity
+            android:name=".activities.ScoreboardActivity"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity android:name=".activities.MainActivity"
+            android:parentActivityName=".activities.MainActivity"/>
+        <activity
+            android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

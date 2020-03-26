@@ -35,7 +35,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 
     // Firestore
-    implementation 'com.google.firebase:firebase-firestore:21.4.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.4.1'
 
     // Other Firebase/Play services deps
     implementation 'com.google.firebase:firebase-auth:19.2.0'
@@ -44,6 +44,7 @@ dependencies {
     //FirebaseUI (for auth)
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
+
 
     implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
