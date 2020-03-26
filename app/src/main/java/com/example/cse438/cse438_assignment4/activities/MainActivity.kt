@@ -22,7 +22,6 @@ import com.example.cse438.cse438_assignment4.R
 import com.example.cse438.cse438_assignment4.fragments.BetFragment
 import com.example.cse438.cse438_assignment4.util.Game
 import com.example.cse438.cse438_assignment4.util.formatHandValues
-import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
