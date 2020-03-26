@@ -23,6 +23,7 @@ import com.example.cse438.cse438_assignment4.fragments.BetFragment
 import com.example.cse438.cse438_assignment4.util.Game
 import com.example.cse438.cse438_assignment4.util.formatHandValues
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -49,9 +50,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     }
 
     fun logout(view: View) {
-        AuthUI.getInstance()
-            .signOut(this)
-        startActivity(Intent(this, LoginActivity::class.java))
+        FirebaseAuth.getInstance()
+            .signOut()
+        intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+
     }
 
     companion object {

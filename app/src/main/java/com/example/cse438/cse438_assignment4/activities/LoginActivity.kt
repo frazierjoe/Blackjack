@@ -17,11 +17,13 @@ import com.google.firebase.auth.FirebaseAuth
 class LoginActivity: AppCompatActivity(){
     private val RC_SIGN_IN = 123
     private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
         var currentUser = auth.currentUser
+
         if(currentUser != null) {
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -30,7 +32,6 @@ class LoginActivity: AppCompatActivity(){
         else{
             showSignInOptions()
         }
-
     }
 
 
@@ -42,6 +43,7 @@ class LoginActivity: AppCompatActivity(){
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
+                .setIsSmartLockEnabled(false)
                 .build(),
             RC_SIGN_IN
         )
