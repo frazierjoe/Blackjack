@@ -41,8 +41,8 @@ class BetFragment : Fragment(), View.OnClickListener {
                 if (bet != "") {
                     var betNum = bet.toInt()
                     if(betNum <= chipC!!) {
-                        (activity as MainActivity?)!!.betCallback(betNum)
                         activity!!.supportFragmentManager.beginTransaction().remove(this).commit()
+                        (activity as MainActivity?)!!.betCallback(betNum)
                     }
                     else{
                         Toast.makeText(

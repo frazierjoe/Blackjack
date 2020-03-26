@@ -25,6 +25,7 @@ data class Hand(var cardList: ArrayList<Int> = ArrayList(), var handValues: Arra
             tempArray.add(newValue)
         }
 
+        //find the best hand for dealer logic, along with playable hands for aces
         bestHand = 0
         playableHands = 0
         for (x in 0..tempArray.size - 1) {
@@ -35,6 +36,7 @@ data class Hand(var cardList: ArrayList<Int> = ArrayList(), var handValues: Arra
                 bestHand = tempArray[x]
             }
         }
+        //reset the hand to the array of new values since new card is dealt
         handValues = tempArray
     }
 }

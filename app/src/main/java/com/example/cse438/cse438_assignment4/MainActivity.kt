@@ -6,6 +6,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -26,6 +27,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
+import kotlin.concurrent.schedule
+import kotlin.coroutines.CoroutineContext
 
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
@@ -121,7 +125,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
     }
 
-    //Deal the intial 4 cards
+    //Deal the initial 4 cards
     fun dealInitialCards(){
         dealCard(true,false)
         dealCard(false, false)
@@ -194,8 +198,20 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
         animatedView.bringToFront()
 
-        var animation1 = ObjectAnimator.ofFloat(animatedView, "translationX", -355f).apply{
-            duration = 2000
+        var moveX : Float = 0.0f
+        var moveY : Float = 0.0f
+
+        if(isPlayer){
+            moveX = 150f
+            moveY = 1000f
+        }else{
+            moveX = 150f
+            moveY = 700f
+        }
+
+
+        var animation1 = ObjectAnimator.ofFloat(animatedView, "translationX", moveX).apply{
+            duration = 500
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     if(dealerFirstCard){
@@ -207,14 +223,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
                 }
             })
         }
-        var animation2 = ObjectAnimator.ofFloat(animatedView, "translationY", 654f).apply{ duration=2000}
+        var animation2 = ObjectAnimator.ofFloat(animatedView, "translationY", moveY).apply{ duration=500}
         var hide = ObjectAnimator.ofFloat(animatedView, "alpha", 1f, 0f).apply{duration=20}
         AnimatorSet().apply{
             play(animation1).with(animation2)
             play(hide).after(animation1)
             start()
         }
-
+        onEnterAnimationComplete()
     }
 
     //Logic for the dealer's turn
@@ -224,17 +240,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         //flip card
         flipDealerCard()
 
-//        if(game.dealerHand.bestHand == 21){ //If dealer dealt 21 they win
-//            playerLost()
-//        }
-//        while(game.dealerHand.bestHand <= 17){//If under 18 hit
-//            dealCard(isPlayerTurn, isDealerTurn)
-//        }
-
-        if(game.dealerHand.bestHand == 21){
-            playerLost()
-        }
-
+        // if no condition is met, dealer has no need to hit
+        // if dealer has ace, must hit 17, stays at 18 and up
+        // with no ace, dealer hits until 17 or higher
+        //check that dealer still has playable hand to avoid inf loop
         while(game.dealerHand.playableHands > 0 && (game.dealerHand.bestHand < 17 || (game.dealerHand.bestHand == 17 && game.dealerHand.playableHands > 1))) {
             if (game.dealerHand.numAces > 0) {
                 if (game.dealerHand.bestHand < 17) {
@@ -244,11 +253,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
                 } else {
                     break
                 }
-            }
-            else {
+            } else {
                 dealCard(isPlayerTurn, isDealerTurn)
             }
         }
+        //dealer is done
+        betPlaced = false
         findWinner()
     }
 
@@ -266,6 +276,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
                 maxDealer = game.dealerHand.handValues[y]
             }
         }
+
         if(maxDealer > maxPlayer){
             playerLost()
         }
@@ -293,6 +304,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         chips.text = chipCount.toString()
         dealInitialCards()
         updatePlayerValue()
+
+        //if either has blackjack, hand over
+        if(game.dealerHand.bestHand == 21 || game.playerHand.bestHand == 21){
+            betPlaced = false
+            findWinner()
+        }
         //TODO UPDATE CHIPS
     }
 
@@ -305,7 +322,13 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
     //Alert the player that they won, show dealer's cards
     fun playerLost(){
-        Toast.makeText(this, "You lost, new hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
+        if(game.dealerHand.cardList.size == 2 && game.dealerHand.bestHand == 21){
+            Toast.makeText(this, "Dealer Blackjack, new hand in 5 seconds", Toast.LENGTH_LONG).show()
+        }
+        else {
+            Toast.makeText(this, "You lost, new hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
+        }
+
         //TODO add loss to player stats, update the stats bar (Chips should already be removed from when they bet)
         var playerLost = true
         flipDealerCard()
@@ -314,14 +337,21 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
     //Alert the player that they won
     fun playerWon(){
-        Toast.makeText(this, "You won! New hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
+        if(game.playerHand.cardList.size == 2 && game.playerHand.bestHand == 21){
+            Toast.makeText(this, "BLACKJACK! Winner winner, chicken dinner!", Toast.LENGTH_LONG).show()
+            chipCount= (chipCount + 2*curBet + curBet/2)
+        }
+        else {
+            Toast.makeText(this, "You won! New hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
+            chipCount= (chipCount + 2*curBet)
+        }
+
         //TODO add win to player stats, update the stats bar, add chips
-        chipCount= (chipCount + 2*curBet)
         chips.text = chipCount.toString()
         Handler().postDelayed(this::startGame, 5000)
     }
 
-    //Alert the player that they pushed
+    //Alert the player that they pushed, had same value as dealer
     fun playerPush(){
         Toast.makeText(this, "Push. New hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
         //TODO add push to player stats, update the stats bar, add chips
