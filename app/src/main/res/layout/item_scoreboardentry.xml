@@ -1,52 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:id="@+id/sbContainer"
-    android:padding="8dp">
+    android:gravity="center"
+    android:padding="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp">
 
+    <TextView
+        android:id="@+id/position"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginRight="5dp"
+        android:text="@string/ex_position"/>
     <TextView
         android:id="@+id/playerName"
-        android:textSize="25dp"
-        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="-2dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:gravity="left"
-        tools:text="DigShake" />
-
+        android:layout_weight="1"
+        android:text="@string/ex_player_name"/>
     <TextView
         android:id="@+id/playerChipCount"
-        android:textSize="25dp"
-        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:layout_width="0dp"
+        android:layout_weight="0.7"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="200dp"
-        android:layout_toRightOf="@+id/playerName"
-        android:gravity="right"
-        tools:text="(1000)" />
+        android:text="@string/chip_placeholder"/>
 
     <TextView
         android:id="@+id/playerWins"
-        android:textSize="18dp"
-        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/playerName"
-        tools:text="Wins" />
+        android:text="@string/ex_wins"/>
 
     <TextView
         android:id="@+id/playerLosses"
-        android:textSize="18dp"
-        android:layout_marginLeft="50dp"
-        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/playerWins"
-        android:layout_toRightOf="@+id/playerWins"
-        tools:text="Losses" />
+        android:text="@string/ex_wins"/>
 
-</RelativeLayout>
+</LinearLayout>

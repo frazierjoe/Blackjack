@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +10,11 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
         <TextView
             android:id="@+id/leaderText"
             android:layout_width="match_parent"
@@ -19,10 +23,55 @@
             android:text="@string/leaderboard"
             android:gravity="center"
             android:textSize="25sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:layout_marginRight="5dp"/>
+            <TextView
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/player_name_leaderboard"/>
+            <TextView
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="@string/chips_leaderboard"/>
+
+            <TextView
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="@string/wins_leaderboard"/>
+
+            <TextView
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="@string/losses_leaderboard"/>
+
+        </LinearLayout>
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playersRecyclerView"
@@ -31,10 +80,6 @@
             android:layout_margin="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/leaderText"
-            tools:listitem="layout/item_scoreboardentry" />
+            />
     </LinearLayout>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
