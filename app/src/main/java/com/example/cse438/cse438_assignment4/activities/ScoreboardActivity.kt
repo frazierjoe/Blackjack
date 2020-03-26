@@ -7,18 +7,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.cse438.cse438_assignment4.R
 import com.example.cse438.cse438_assignment4.viewmodels.MainActivityViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.example.fireeats.kotlin.adapter.ScoreboardAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_scoreboard.*
 
-class ScoreboardActivity : AppCompatActivity(),
-    ScoreboardAdapter.OnPlayerSelectedListener {
+abstract class ScoreboardActivity : AppCompatActivity(), ScoreboardAdapter.OnPlayerSelectedListener {
 
     private lateinit var viewModel: MainActivityViewModel
     lateinit var firestore: FirebaseFirestore
     lateinit var query: Query
+    lateinit var adapter : ScoreboardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
@@ -37,10 +38,8 @@ class ScoreboardActivity : AppCompatActivity(),
                 // Show/hide content if the query returns empty.
                 if (itemCount == 0) {
                     playersRecyclerView.visibility = View.GONE
-                    viewEmpty.visibility = View.VISIBLE
                 } else {
                     playersRecyclerView.visibility = View.VISIBLE
-                    viewEmpty.visibility = View.GONE
                 }
             }
 

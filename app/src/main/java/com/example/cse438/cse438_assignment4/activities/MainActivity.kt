@@ -26,12 +26,7 @@ import com.example.cse438.cse438_assignment4.util.Game
 import com.example.cse438.cse438_assignment4.util.formatHandValues
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.example.fireeats.kotlin.adapter.ScoreboardAdapter
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_scoreboard.*
 
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
@@ -41,7 +36,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     private var bet : Int = 0
     private var curBet : Int = 0
     private var chipCount : Int = 1000 //if this is changed, also update strings file for chip_placeholder
-    //private lateinit var dealerHand : Hand
+    private var Ws : Int = 0 // same as above
+    private var Ls : Int = 0 // same as above
     private lateinit var viewModel: MainActivityViewModel
     var game = Game()
     private lateinit var mDetector: GestureDetectorCompat
@@ -49,12 +45,13 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
+
         //Gestures
         mDetector = GestureDetectorCompat(this, this)
         mDetector.setOnDoubleTapListener(this)
 
         startGame()
-
     }
 
     public override fun onStart() {
@@ -115,7 +112,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
             var imageView = parent.getChildAt(x)
             imageView.setBackgroundResource(android.R.color.transparent)
         }
-
     }
 
     //Deal the initial 4 cards
@@ -234,7 +230,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         flipDealerCard()
 
         // if no condition is met, dealer has no need to hit
-        // if dealer has ace, must hit 17, stays at 18 and up
+        // if dealer has ace (as 11), must hit 17, stays at 18 and up
         // with no ace, dealer hits until 17 or higher
         //check that dealer still has playable hand to avoid inf loop
         while(game.dealerHand.playableHands > 0 && (game.dealerHand.bestHand < 17 || (game.dealerHand.bestHand == 17 && game.dealerHand.playableHands > 1))) {
@@ -323,7 +319,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         }
 
         //TODO add loss to player stats, update the stats bar (Chips should already be removed from when they bet)
-        var playerLost = true
+        ++Ls
+        losses.text = Ls.toString()
         flipDealerCard()
         Handler().postDelayed(this::startGame, 5000)
     }
@@ -340,6 +337,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         }
 
         //TODO add win to player stats, update the stats bar, add chips
+        ++Ws
+        wins.text = Ws.toString()
         chips.text = chipCount.toString()
         Handler().postDelayed(this::startGame, 5000)
     }
