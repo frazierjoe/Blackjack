@@ -13,4 +13,11 @@ data class User(var wins: Int = 0, var chips: Int = 0, var name: String = "", va
             .addOnSuccessListener {  Log.d("TAG", "User Updated") }
             .addOnFailureListener{e -> Log.w("TAG", "ERROR", e)}
     }
+    fun deleteUser(){
+        val db = Firebase.firestore
+        val userRef = db.collection("users").document(this.id)
+        userRef.delete()
+            .addOnSuccessListener { Log.d("TAG", "User deleted from database") }
+            .addOnFailureListener{e -> Log.w("TAG", "ERROR",e )}
+    }
 }

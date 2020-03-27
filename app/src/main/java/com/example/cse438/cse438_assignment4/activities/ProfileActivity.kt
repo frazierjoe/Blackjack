@@ -3,18 +3,23 @@ package com.example.cse438.cse438_assignment4.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cse438.cse438_assignment4.R
 import com.example.cse438.cse438_assignment4.util.User
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.android.synthetic.main.activity_profile.*
 
+
+
 class ProfileActivity: AppCompatActivity(){
+    lateinit var userObj: User
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -33,7 +38,7 @@ class ProfileActivity: AppCompatActivity(){
         var userChips = intent.getStringExtra("userChips").toInt()
         var userWins = intent.getStringExtra("userWins").toInt()
         var userLosses = intent.getStringExtra("userLosses").toInt()
-        var user = User(userWins, userChips, userName, userId, userLosses)
+        userObj = User(userWins, userChips, userName, userId, userLosses)
         profileName.hint = userName.toString()
         profileWins.text = userWins.toString()
         profileLosses.text = userLosses.toString()
@@ -49,67 +54,157 @@ class ProfileActivity: AppCompatActivity(){
     }
 
     fun deleteProfile(view: View){
-        var email =""
-        val currentUser =FirebaseAuth.getInstance().currentUser
-        currentUser?.let{
-            email = currentUser.email.toString()
-        }
-        var password = profileNewPassword.text.toString()
-        if(password != ""){
-            val user = FirebaseAuth.getInstance().currentUser
-            val credential = EmailAuthProvider
-                .getCredential(email, password)
-            user?.reauthenticate(credential)
-                ?.addOnCompleteListener {
-                    user?.delete()
-                        ?.addOnCompleteListener { task ->
-                            if(task.isSuccessful){
-                                intent = Intent(this, LoginActivity::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                startActivity(intent)
-                            }
-                            else{
-                                Log.d("blah", "error")
-                            }
-                        }
+        getCredentials(true)
+    }
+    fun deleteProfileCallback(){
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.delete()
+            ?.addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    userObj.deleteUser()
+                    Toast.makeText(this, "Account Deleted", Toast.LENGTH_LONG).show()
+                    intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
 
                 }
-                ?.addOnFailureListener{
-                    Toast.makeText(this, "Incorrect password.", Toast.LENGTH_LONG).show()
+                else{
+                    Toast.makeText(this, "Error "+task.exception.toString(), Toast.LENGTH_LONG).show()
                 }
-
-        }
-        else{
-            passwordText.text = "Password"
-            Toast.makeText(this,"Enter your password in the password field to delete your account", Toast.LENGTH_LONG).show()
-        }
-
+            }
+    }
+    fun updateProfile(view:View){
+        getCredentials(false)
     }
 
-    fun updateProfile(view: View){
+
+    fun updateProfileCallback(){
         var email =""
         val currentUser =FirebaseAuth.getInstance().currentUser
         currentUser?.let{
             email = currentUser.email.toString()
         }
-        if (profileName.text.toString() != ""){
+        var newName = profileName.text.toString()
+        if (newName != ""){
+            updateName(newName)
             Log.d("BLAH", profileName.text.toString())
         }
-        if (profileNewPassword.text.toString() != ""){
+        var newPassword = profileNewPassword.text.toString()
+        if ( newPassword != ""){
+            updatePassword(newPassword)
             Log.d("blah", profileNewPassword.text.toString())
         }
-        if(profileEmail.text.toString() != ""){
+        var newEmail =profileEmail.text.toString()
+        if(newEmail != ""){
+                updateEmail(newEmail)
                 Log.d("blah", profileEmail.text.toString())
         }
     }
 
-//    fun updateName(){
-//
-//    }
-//    fun updateEmail(){
-//
-//    }
-//    fun updatePassword(){
-//
-//    }
+    fun getCredentials(isDeleting: Boolean){
+        var email = ""
+        var currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let{
+            email = currentUser.email.toString()
+        }
+        val li = LayoutInflater.from(applicationContext)
+        val promptsView: View = li.inflate(R.layout.dialog_reauth, null)
+        val credentialAlertDialog = AlertDialog.Builder(this)
+        credentialAlertDialog.setView(promptsView)
+        var passwordTextView = promptsView.findViewById<EditText>(R.id.reauthPassword)
+        credentialAlertDialog.setTitle("Reauthorize to continue")
+        credentialAlertDialog.setPositiveButton("Continue"){dialog, which ->
+            var password = passwordTextView.text.toString()
+
+            Log.d("BLAH", password)
+            if(password != "") {
+                val credential = EmailAuthProvider
+                    .getCredential(email, password!!)
+                currentUser?.reauthenticate(credential)
+                    ?.addOnCompleteListener {task ->
+                        if(task.isSuccessful) {
+                            if (isDeleting) {
+                                deleteProfileCallback()
+                            } else {
+                                updateProfileCallback()
+                            }
+                            Toast.makeText(this, "Reauthorized", Toast.LENGTH_LONG).show()
+                        }
+                        else{
+                            Toast.makeText(this, "Errpr"+task.exception.toString(), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    ?.addOnFailureListener {e ->
+                        Toast.makeText(this, "Error "+e.toString(), Toast.LENGTH_LONG).show()
+                    }
+            }
+            else{
+                Toast.makeText(this,"No password entered", Toast.LENGTH_LONG).show()
+            }
+
+        }
+        credentialAlertDialog.setNegativeButton("Cancel"){dialog, which ->
+            Toast.makeText(applicationContext, "Update Canceled", Toast.LENGTH_LONG).show()
+        }
+        val dialog: AlertDialog = credentialAlertDialog.create()
+        dialog.show()
+    }
+
+    fun updateName(newName: String){
+        val user = FirebaseAuth.getInstance().currentUser
+        val profileUpdates = UserProfileChangeRequest.Builder()
+            .setDisplayName(newName)
+            .build()
+        user?.updateProfile(profileUpdates)
+            ?.addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    Toast.makeText(this, "Updated Name", Toast.LENGTH_LONG).show()
+                    userObj.name = newName
+                    userObj.updatDatabase()
+                    profileName.text.clear()
+                    profileName.hint =newName
+
+                }
+                else{
+                    Toast.makeText(this, "Update failed "+ task.exception.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+
+
+
+    }
+    fun updateEmail(newEmail: String){
+        var user  = FirebaseAuth.getInstance().currentUser
+        user?.updateEmail(newEmail)
+            ?.addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    Toast.makeText(this, "Updated Email", Toast.LENGTH_LONG).show()
+                    profileEmail.text.clear()
+                    profileEmail.hint = newEmail
+                }
+                else{
+                    Toast.makeText(this, "Update failed "+ task.exception.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+
+    }
+    fun updatePassword(newPassword: String){
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.updatePassword(newPassword)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Updated Password", Toast.LENGTH_LONG).show()
+                    profileNewPassword.text.clear()
+                }
+                else{
+                    Toast.makeText(this, "Update failed "+ task.exception.toString(), Toast.LENGTH_LONG).show()
+                    profileNewPassword.text.clear()
+                }
+            }
+            ?.addOnFailureListener { e ->
+                Toast.makeText(this, "Update failed " + e, Toast.LENGTH_LONG).show()
+                profileNewPassword.text.clear()
+            }
+
+    }
 }
