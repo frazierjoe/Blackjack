@@ -19,7 +19,7 @@
 ## Create Account
 * Enter email, name and password.
 
-<img src="/BlackjackPics/Register.png" alt="Register" width="200px"/>
+<img src="/BlackjackPics/Login.gif" alt="Register" width="200px"/>
 
 ## Play
 
