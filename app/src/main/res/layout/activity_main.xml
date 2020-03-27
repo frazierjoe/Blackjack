@@ -300,8 +300,7 @@
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="30dp"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
@@ -395,11 +394,31 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/blackjack_pay_label"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="0.3"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/value_container">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/text"
+        android:textStyle="bold"
+        android:text="@string/bjpay" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/value_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_weight="0.3"
         android:layout_margin="20dp"
         android:gravity="center"
@@ -408,9 +427,11 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
+            android:id="@+id/pValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="2dp"
+            android:layout_marginTop="5dp"
             android:textSize="20sp"
             android:textColor="@color/text"
             android:textStyle="bold"
@@ -420,10 +441,12 @@
             android:id="@+id/value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:textSize="20sp"
             android:textColor="@color/text"
             android:textStyle="bold"
-            android:text="@string/number_placeholder" />
+            android:text="@string/number_placeholder"
+            app:layout_constraintTop_toTopOf="@id/pValue"/>
     </LinearLayout>
 
 

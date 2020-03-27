@@ -25,6 +25,7 @@ import com.example.cse438.cse438_assignment4.util.formatHandValues
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Math.ceil
 
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
@@ -55,7 +56,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         intent = Intent(this, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
-
     }
 
     companion object {
@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         val fragment = BetFragment()
         var bundle = Bundle()
         bundle.putInt("chip count", chipCount)
+        bundle.putInt("previous bet", curBet)
         fragment.arguments = bundle
         fragmentTransaction.add(R.id.bet_fragment_container, fragment)
         fragmentTransaction.commit()
@@ -271,6 +272,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
         //if either has blackjack, hand over
         if(game.dealerHand.bestHand == 21 || game.playerHand.bestHand == 21){
+            flipDealerCard()
             betPlaced = false
             findWinner()
         }
@@ -291,12 +293,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         }
         else {
             Toast.makeText(this, "You lost, new hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
+            flipDealerCard()
         }
 
         //TODO add loss to player stats, update the stats bar (Chips should already be removed from when they bet)
         ++Ls
         losses.text = Ls.toString()
-        flipDealerCard()
         Handler().postDelayed(this::startGame, 5000)
     }
 
@@ -304,7 +306,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     fun playerWon(){
         if(game.playerHand.cardList.size == 2 && game.playerHand.bestHand == 21){
             Toast.makeText(this, "BLACKJACK! Winner winner, chicken dinner!", Toast.LENGTH_LONG).show()
-            chipCount= (chipCount + 2*curBet + curBet/2)
+            chipCount= (chipCount + 2*curBet + ceil((curBet/2.0)).toInt())
         }
         else {
             Toast.makeText(this, "You won! New hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them

@@ -12,7 +12,9 @@
     <string name="unknown">Unknown</string>
     <string name="bet_amount">Bet Amount</string>
     <string name="bet">Bet</string>
+    <string name="rebet">Rebet</string>
     <string name="player_value">Player Value: </string>
+    <string name ="bjpay">Blackjack Pays 3:2</string>
     <string name="dealer_value">Dealer Value: </string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ex_player_name">DigDoug</string>

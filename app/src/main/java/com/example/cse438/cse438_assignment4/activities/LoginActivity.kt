@@ -13,7 +13,6 @@ import com.firebase.ui.auth.data.model.User
 import com.google.firebase.auth.FirebaseAuth
 
 
-
 class LoginActivity: AppCompatActivity(){
     private val RC_SIGN_IN = 123
     private lateinit var auth: FirebaseAuth
