@@ -62,17 +62,21 @@ class LoginActivity: AppCompatActivity(){
                     .addOnSuccessListener { document ->
                         if(document.data != null){
                             Log.d("TAG", "USER ALREADY EXISTS: ${document.data}")
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
 
                         } else{
                             userRef.set(user)
-                                .addOnSuccessListener {  Log.d("TAG", "Success") }
+                                .addOnSuccessListener {  Log.d("TAG", "Success")
+                                    val intent = Intent(this, MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+                                }
                                 .addOnFailureListener{e -> Log.w("TAG", "ERROR", e)}
                         }
                     }.addOnFailureListener{e -> Log.w("TAG", "Failed to get doc", e)}
 
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
             } else {
                 Toast.makeText(this, "Invalid login", Toast.LENGTH_LONG).show()
                 showSignInOptions()

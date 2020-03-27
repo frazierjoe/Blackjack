@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     //Set initial game conditions
     fun startGame(){
         resetImages()
+        value.text =""
         betPlaced=false
         game = Game()
         game.newGame(this, 8) //Generate deck
