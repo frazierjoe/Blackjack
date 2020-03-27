@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     var game = Game()
     private var user = User()
     private lateinit var mDetector: GestureDetectorCompat
+    private var swipedistance = 100
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -192,7 +194,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
             moveY = 700f
         }
 
-
         var animation1 = ObjectAnimator.ofFloat(animatedView, "translationX", moveX).apply{
             duration = 500
             addListener(object : AnimatorListenerAdapter() {
@@ -223,21 +224,24 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         //flip card
         flipDealerCard()
 
+        // if either has blackjack, hand over
         // if no condition is met, dealer has no need to hit
         // if dealer has ace (as 11), must hit 17, stays at 18 and up
         // with no ace, dealer hits until 17 or higher
-        //check that dealer still has playable hand to avoid inf loop
-        while(game.dealerHand.playableHands > 0 && (game.dealerHand.bestHand < 17 || (game.dealerHand.bestHand == 17 && game.dealerHand.playableHands > 1))) {
-            if (game.dealerHand.numAces > 0) {
-                if (game.dealerHand.bestHand < 17) {
-                    dealCard(isPlayerTurn, isDealerTurn)
-                } else if (game.dealerHand.bestHand == 17 && game.dealerHand.playableHands > 1) {
-                    dealCard(isPlayerTurn, isDealerTurn)
-                } else {
-                    break
+        // check that dealer still has playable hand to avoid inf loop
+        if (!(game.dealerHand.bestHand == 21 || (game.playerHand.bestHand == 21 && game.playerHand.cardList.size == 2))) {
+            while (game.dealerHand.playableHands > 0 && (game.dealerHand.bestHand < 17 || (game.dealerHand.bestHand == 17 && game.dealerHand.playableHands > 1))) {
+                if (game.dealerHand.numAces > 0) {
+                    if (game.dealerHand.bestHand < 17) {
+                        dealCard(isPlayerTurn, isDealerTurn)
+                    }
+                    else if (game.dealerHand.bestHand == 17 && game.dealerHand.playableHands > 1) {
+                        dealCard(isPlayerTurn, isDealerTurn)
+                    }
                 }
-            } else {
-                dealCard(isPlayerTurn, isDealerTurn)
+                else {
+                    dealCard(isPlayerTurn, isDealerTurn)
+                }
             }
         }
         //dealer is done
@@ -289,17 +293,16 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         dealInitialCards()
         updatePlayerValue()
 
-        //if either has blackjack, hand over
-        if(game.dealerHand.bestHand == 21 || game.playerHand.bestHand == 21){
-            flipDealerCard()
-            betPlaced = false
-            findWinner()
+        if(game.playerHand.bestHand == 21 || game.dealerHand.bestHand == 21){
+            dealerTurn()
+            Handler().postDelayed(this::flipDealerCard, 1000)
         }
     }
 
     //Checks if player is over 21
     fun checkIfPlayerBust(){
         if(game.playerHand.handValues[0] > 21){ //If player lost
+            flipDealerCard()
             playerLost()
         }
     }
@@ -353,6 +356,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         profileIntent.putExtra("userId", user.id)
         startActivity(profileIntent)
     }
+
     fun leaderboard(view: View){
         var leadIntent = Intent(this, ScoreboardActivity::class.java)
         startActivity(leadIntent)
@@ -378,8 +382,18 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         velocityX: Float,
         velocityY: Float
     ): Boolean {
+        if(event2.x - event1.x > swipedistance) {
+            if(betPlaced) {
+                dealerTurn()
+                return true
+            }
+            else {
+                Toast.makeText(this, "Must place a bet before you can proceed", Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
         Log.d(DEBUG_TAG, "onFling: $event1 $event2")
-        return true
+        return false
     }
 
     override fun onLongPress(event: MotionEvent) {
