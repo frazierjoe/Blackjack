@@ -18,8 +18,8 @@ data class Hand(var cardList: ArrayList<Int> = ArrayList(), var handValues: Arra
                 ++numAces
             }
             tempHandValue += getCardValue(context,id) //Add up the total value of cards
-
         }
+
         for(x in 0..numAces){ //For each ace, add the aces high value to the array of hand values
             var newValue = tempHandValue + (x*10)
             tempArray.add(newValue)

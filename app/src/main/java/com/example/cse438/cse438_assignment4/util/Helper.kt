@@ -82,7 +82,6 @@ fun formatHandValues(hand: Hand): String{
         else if(temp < 22) {//Otherwise add to string with slash if under 22
             str += "/" +temp.toString()
         }
-
     }
     return str
 }

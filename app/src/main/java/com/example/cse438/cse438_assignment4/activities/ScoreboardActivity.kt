@@ -1,7 +1,6 @@
 package com.example.cse438.cse438_assignment4.activities
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -26,20 +25,24 @@ class ScoreboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scoreboard)
+
         firestore = FirebaseFirestore.getInstance()
+
         query = firestore.collection("users")
             .orderBy("chips", Query.Direction.DESCENDING)
             .limit(20)
-        var playerList: ArrayList<User> = ArrayList()
-        firestore.collection("users").get().addOnSuccessListener { result ->
+
+        var playerList: ArrayList<User> = arrayListOf()
+        firestore.collection("users").orderBy("chips", Query.Direction.DESCENDING).get().addOnSuccessListener { result ->
             for (document in result) {
-                Log.d("BLAH", document.toString())
                 playerList.add(document.toObject<User>())
-                recycler = playersRecyclerView
-                adapter = ScoreboardAdapter(playerList)
-                recycler.adapter = adapter
-                recycler.layoutManager = LinearLayoutManager(this)
             }
+            recycler = playersRecyclerView
+            adapter = ScoreboardAdapter(playerList)
+            recycler.adapter = adapter
+            recycler.layoutManager = LinearLayoutManager(this)
         }.addOnFailureListener { exception -> Log.w("TAG", "ERROR", exception) }
+
+        Toast.makeText(this, query.toString(), Toast.LENGTH_LONG).show()
     }
 }
