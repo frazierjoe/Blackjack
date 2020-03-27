@@ -1,6 +1,6 @@
 # Android Blackjack App
 
-__This project was created in collaboration with Jacob Gilhaus as a project for CSE-438__
+_This project was created in collaboration with Jacob Gilhaus as a project for CSE-438_
 
 ## The goal of this project was to:
 * Create a scalable app utilizing Firebase Authentication and Cloud Firestore
