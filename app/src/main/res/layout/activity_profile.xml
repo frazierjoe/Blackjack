@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="30sp"
-            android:text="@string/name_placeholder"
             android:textColor="@color/text"
             android:gravity="center"
             />
@@ -147,6 +146,7 @@
         app:layout_constraintTop_toBottomOf="@+id/profileStatsContainer3"
         >
         <TextView
+            android:id="@+id/passwordText"
             android:layout_width="0dp"
             android:layout_weight="0.75"
             android:layout_height="wrap_content"
@@ -164,7 +164,6 @@
             android:layout_weight="1"
             android:id="@+id/profileNewPassword"
             android:textSize="20sp"
-            android:text="@string/new_password"
             android:textColorHint="@color/text"
             android:gravity="center"
             />

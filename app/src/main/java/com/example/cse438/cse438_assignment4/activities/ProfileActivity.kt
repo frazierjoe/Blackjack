@@ -2,10 +2,13 @@ package com.example.cse438.cse438_assignment4.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cse438.cse438_assignment4.R
 import com.example.cse438.cse438_assignment4.util.User
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -46,18 +49,67 @@ class ProfileActivity: AppCompatActivity(){
     }
 
     fun deleteProfile(view: View){
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.delete()
-            ?.addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    intent = Intent(this, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
+        var email =""
+        val currentUser =FirebaseAuth.getInstance().currentUser
+        currentUser?.let{
+            email = currentUser.email.toString()
+        }
+        var password = profileNewPassword.text.toString()
+        if(password != ""){
+            val user = FirebaseAuth.getInstance().currentUser
+            val credential = EmailAuthProvider
+                .getCredential(email, password)
+            user?.reauthenticate(credential)
+                ?.addOnCompleteListener {
+                    user?.delete()
+                        ?.addOnCompleteListener { task ->
+                            if(task.isSuccessful){
+                                intent = Intent(this, LoginActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+                            }
+                            else{
+                                Log.d("blah", "error")
+                            }
+                        }
+
                 }
-            }
+                ?.addOnFailureListener{
+                    Toast.makeText(this, "Incorrect password.", Toast.LENGTH_LONG).show()
+                }
+
+        }
+        else{
+            passwordText.text = "Password"
+            Toast.makeText(this,"Enter your password in the password field to delete your account", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     fun updateProfile(view: View){
-
+        var email =""
+        val currentUser =FirebaseAuth.getInstance().currentUser
+        currentUser?.let{
+            email = currentUser.email.toString()
+        }
+        if (profileName.text.toString() != ""){
+            Log.d("BLAH", profileName.text.toString())
+        }
+        if (profileNewPassword.text.toString() != ""){
+            Log.d("blah", profileNewPassword.text.toString())
+        }
+        if(profileEmail.text.toString() != ""){
+                Log.d("blah", profileEmail.text.toString())
+        }
     }
+
+//    fun updateName(){
+//
+//    }
+//    fun updateEmail(){
+//
+//    }
+//    fun updatePassword(){
+//
+//    }
 }
