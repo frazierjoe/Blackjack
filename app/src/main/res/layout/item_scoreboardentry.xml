@@ -10,15 +10,6 @@
     android:layout_marginRight="8dp">
 
     <TextView
-        android:id="@+id/position"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.2"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginRight="5dp"
-        android:text="@string/ex_position"/>
-    <TextView
         android:id="@+id/playerName"
         android:textSize="20sp"
         android:layout_width="0dp"

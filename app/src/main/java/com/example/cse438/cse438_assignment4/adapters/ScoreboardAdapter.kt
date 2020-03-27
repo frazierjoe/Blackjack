@@ -32,9 +32,7 @@ class ScoreboardViewHolder(inflater: LayoutInflater, parent : ViewGroup) :
         plLosses?.text = pl.losses.toString()
     }
 }
-/**
- * RecyclerView adapter for a list of Players.
- */
+
 class ScoreboardAdapter(private val players: ArrayList<User>?) : RecyclerView.Adapter<ScoreboardViewHolder>(){
     private var listPlayers: ArrayList<User>? = players
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScoreboardViewHolder {

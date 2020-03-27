@@ -3,8 +3,6 @@ package com.example.cse438.cse438_assignment4.util
 import android.content.Context
 import kotlin.collections.ArrayList
 
-
-
 data class Deck(var cardList: ArrayList<Int> = ArrayList()){
 
     //Recreated the cardList with numberOfDecks decks

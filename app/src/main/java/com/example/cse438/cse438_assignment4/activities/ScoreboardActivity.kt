@@ -1,7 +1,6 @@
 package com.example.cse438.cse438_assignment4.activities
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity

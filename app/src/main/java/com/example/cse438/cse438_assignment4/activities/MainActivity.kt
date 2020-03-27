@@ -17,7 +17,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.os.bundleOf
 import androidx.core.view.GestureDetectorCompat
 import com.example.cse438.cse438_assignment4.R
 import com.example.cse438.cse438_assignment4.fragments.BetFragment
@@ -79,9 +78,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     }
 
     companion object {
-
         private const val TAG = "MainActivity"
-
         private const val DEBUG_TAG = "Gestures"
     }
 
@@ -314,7 +311,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         }
         else {
             Toast.makeText(this, "You lost, new hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
-            flipDealerCard()
         }
         ++user.losses
         updateUI()
@@ -438,5 +434,4 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         Log.d(DEBUG_TAG, "onSingleTapConfirmed: $event")
         return true
     }
-
 }

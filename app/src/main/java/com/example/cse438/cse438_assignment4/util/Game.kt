@@ -2,8 +2,6 @@ package com.example.cse438.cse438_assignment4.util
 
 import android.content.Context
 
-
-
 data class Game(var deck: Deck = Deck(), var dealerHand: Hand = Hand(), var playerHand: Hand = Hand()){
     //Get new decks, deal initial cards
     fun newGame(context: Context, numberOfDecks: Int){
