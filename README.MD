@@ -74,10 +74,6 @@
 
 <img src="/BlackjackPics/BadPassword.png" alt="Bad Password" width="200px"/>
 
-## Minor Features
-
-* Implemented blackjack to the best of our knowledge.
-
 ## Future Plans
 
 * Add popup instructions and errors(currently uses toasts to display errors.)
