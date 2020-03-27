@@ -1,12 +1,12 @@
 # Android Blackjack App
 
-<img src="/BlackjackPics/InitialDeal.png" alt="Home" width="200px"/>
-
 ## The goal of this project was to:
 * Create a scalable app utilizing Firebase Authentication and Cloud Firestore.
 * Learn to use gestures for user input.
 * Learn to create basic animations.
 * Create a persistent login (users can leave and/or close the app and remain signed in.)
+
+<img src="/BlackjackPics/InitialDeal.png" alt="Home" width="200px"/>
 
 ## Login
 * Enter email and password to sign in.
