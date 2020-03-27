@@ -7,50 +7,53 @@ _This project was created in collaboration with Jacob Gilhaus as a project for C
 * Use gestures for user input
 * Learn to create basic animations
 * Create a persistent login (users can leave and/or close the app and remain signed in)
-
+<img src="/BlackjackPics/InitialDeal.png" alt="Home" width="200px"/>
 
 ## Login
 * Enter email and password to sign in
 * If user forgets their password they can request an email to be sent to them to update their password
-LOGIN
-PASSWORD
+<img src="/BlackjackPics/Login.png" alt="Login" width="200px"/>
+<img src="/BlackjackPics/Password.png" alt="Password" width="200px"/>
+
 
 ## Create Account
 * Enter email, name and password
-REGISTER
+<img src="/BlackjackPics/Register.png" alt="Register" width="200px"/>
 
 ## Play
-MAIN
+<img src="/BlackjackPics/Main.png" alt="Main" width="200px"/>
 * Enter a bet
-BET
+<img src="/BlackjackPics/EnterBet.png" alt="Login" width="200px"/>
 * After a bet is entered, user chips are updated and initial cards are dealt
-INITIALDEAL
+<img src="/BlackjackPics/InitialDeal.png" alt="Initial Deal" width="200px"/>
 * Double tap to hit
 * Swipe right or long press to stay
-HIT PUSH WIN
+<img src="/BlackjackPics/Hit.png" alt="User hit" width="200px"/>
+<img src="/BlackjackPics/Push.png" alt="Push" width="200px"/>
+<img src="/BlackjackPics/Win.png" alt="User won" width="200px"/>
 
 * Click to rebet button to quickly bet your previous bet
 * When a blackjack occurs, the game ends and user is notified
-BLACKJACK
+<img src="/BlackjackPics/Blackjack.png" alt="User blackjack" width="200px"/>
 
 ## Leaderboard
 * Displays the top 20 users by chip count in a RecyclerView
-LEADERBOARD
+<img src="/BlackjackPics/Leaderboard.png" alt="Leaderboard" width="200px"/>
 
 
 ## Profile
 * Displays user name, chips, wins, losses and email.
-PROFILE
+<img src="/BlackjackPics/Profile.png" alt="Profile page" width="200px"/>
 * Users can update their name, email and password but must be reauthenticated in order to do so
-
-REAUTHENTICATE
+<img src="/BlackjackPics/Reauthorize.png" alt="ReAuth" width="200px"/>
 * When an email is updated, a notification is sent to the users previous email to notify them of the change.
+<img src="/BlackjackPics/ProfileUpdated.png" alt="Updated" width="200px"/>
 * Users can logout from here or from the main activity
-* Users can delete their account (deletes from both Firebase Authentication and Firestore so they will be removed from the leaderboard.)
-DELETED
+* Users can delete their account (deletes from both Firebase Authentication and Firestore so they will be removed from the leaderboard.) After being deleted, the user is taken back to the login page.
+<img src="/BlackjackPics/Deleted.png" alt="Deleted account" width="200px"/>
 
 * Firebase handles checking user passwords and emails by throwing an exception if the password doesn't meet their criteria or if the email isn't valid.
-BAD PASSWORD
+<img src="/BlackjackPics/BadPassword.png" alt="Bad Password" width="200px"/>
 
 ## Minor Features
 * Implemented blackjack to the best of our knowledge
