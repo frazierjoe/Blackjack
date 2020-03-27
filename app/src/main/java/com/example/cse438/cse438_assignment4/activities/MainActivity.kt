@@ -61,8 +61,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         //Gestures
         mDetector = GestureDetectorCompat(this, this)
         mDetector.setOnDoubleTapListener(this)
-
-
     }
 
     fun updateUI(){

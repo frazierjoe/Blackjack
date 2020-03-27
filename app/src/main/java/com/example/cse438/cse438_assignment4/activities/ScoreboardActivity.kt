@@ -5,62 +5,46 @@ import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cse438.cse438_assignment4.R
+import com.example.cse438.cse438_assignment4.adapters.ScoreboardAdapter
+import com.example.cse438.cse438_assignment4.util.User
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
+import kotlinx.android.synthetic.main.activity_scoreboard.*
 
 
-//abstract class ScoreboardActivity : AppCompatActivity(), ScoreboardAdapter.OnPlayerSelectedListener {
 class ScoreboardActivity : AppCompatActivity() {
-
 
     lateinit var firestore: FirebaseFirestore
     lateinit var query: Query
-    //    private lateinit var viewModel: MainActivityViewModel
-    //    lateinit var adapter : ScoreboardAdapter
+    lateinit var adapter : ScoreboardAdapter
+    lateinit var recycler : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         setContentView(R.layout.activity_scoreboard)
 
-//        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         firestore = FirebaseFirestore.getInstance()
-//
-//        query = firestore.collection("players")
-//            .orderBy("chipCount", Query.Direction.DESCENDING)
-//            .limit(20)
 
-        firestore.collection("players").get().addOnSuccessListener { result ->
-            for (document in result){
+        query = firestore.collection("users")
+            .orderBy("chips", Query.Direction.DESCENDING)
+            .limit(20)
+
+        var playerList: ArrayList<User> = arrayListOf()
+        firestore.collection("users").get().addOnSuccessListener { result ->
+            for (document in result) {
+                playerList.add(document.toObject<User>())
+                recycler = playersRecyclerView
+                adapter = ScoreboardAdapter(playerList)
+                recycler.adapter = adapter
+                recycler.layoutManager = LinearLayoutManager(this)
                 Log.d("TAG", "${document.id} -> ${document.data}")
             }
-        }.addOnFailureListener{exception -> Log.w("TAG", "ERROR", exception) }
-
+        }.addOnFailureListener { exception -> Log.w("TAG", "ERROR", exception) }
 
         Toast.makeText(this, query.toString(), Toast.LENGTH_LONG).show()
-
-
-
-        // RecyclerView
-//        adapter = object : ScoreboardAdapter(query, this@ScoreboardActivity) {
-//            override fun onDataChanged() {
-//                // Show/hide content if the query returns empty.
-//                if (getItemCount() == 0) {
-//                    playersRecyclerView.visibility = View.GONE
-//                } else {
-//                    playersRecyclerView.visibility = View.VISIBLE
-//                }
-//            }
-//
-//            override fun onError(e: FirebaseFirestoreException) {
-//                // Show a snackbar on errors
-//                Toast.makeText(applicationContext, "Error: check logs for info", Toast.LENGTH_LONG).show()
-////                Snackbar.make(
-////                    findViewById(android.R.id.content),
-////                    "Error: check logs for info.", Snackbar.LENGTH_LONG
-////                ).show()
-//            }
-//        }
     }
-
 }
