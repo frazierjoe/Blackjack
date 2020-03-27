@@ -1,19 +1,6 @@
-In this file you should include:
-
-Any information you think we should know about your submission
-* Is there anything that doesn't work? Why?
-* Is there anything that you did that you feel might be unclear? Explain it here.
-
-Everything should work. We also made some minor changes to the rules described in the document to make the game more like blackjack, described below.
-
 Instructions:
 Double tap to hit.
 Swipe right OR Longhold to stay.
-
-A description of the creative portion of the assignment
-* Describe your feature
-* Why did you choose this feature?
-* How did you implement it?
 
 Features
 * User chip count is updated in database after they bet. Limits the user from quitting the app to not lose chips. Implemented by updating the database when the user clicks the bet button. Also, users can only play until chips run out as in a real blackjack game. Potentially implementing a buyback option was considered but shelved in favor of other features for now. Best option is to delete account and make a new one as explained below.
