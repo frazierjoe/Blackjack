@@ -33,7 +33,7 @@
 
 <img src="/BlackjackPics/InitialDeal.png" alt="Initial Deal" width="200px"/>
 
-* Double tap to hit
+* Double tap to hit.
 * Swipe right or long press to stay.
 
 <img src="/BlackjackPics/Hit.png" alt="User hit" width="200px"/>
