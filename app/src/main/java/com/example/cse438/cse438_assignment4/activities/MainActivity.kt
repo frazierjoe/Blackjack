@@ -21,8 +21,11 @@ import androidx.core.view.GestureDetectorCompat
 import com.example.cse438.cse438_assignment4.R
 import com.example.cse438.cse438_assignment4.fragments.BetFragment
 import com.example.cse438.cse438_assignment4.util.Game
+import com.example.cse438.cse438_assignment4.util.User
 import com.example.cse438.cse438_assignment4.util.formatHandValues
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -32,20 +35,39 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     private var betPlaced = false
     private var bet : Int = 0
     private var curBet : Int = 0
-    private var chipCount : Int = 1000 //if this is changed, also update strings file for chip_placeholder
-    private var Ws : Int = 0 // same as above
-    private var Ls : Int = 0 // same as above
     var game = Game()
+    private var user = User()
     private lateinit var mDetector: GestureDetectorCompat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val db = Firebase.firestore
+        val userRef = db.collection("users").document(userId)
+        userRef.get()
+            .addOnSuccessListener { document ->
+                user.id = document.id
+                user.name = document.data!!.get("name").toString()
+                user.chips = document.data!!.get("chips").toString().toInt()
+                user.losses = document.data!!.get("losses").toString().toInt()
+                user.wins = document.data!!.get("wins").toString().toInt()
+                updateUI()
+                startGame()
+            }.addOnFailureListener{e -> Log.w("TAG", "FAILED TO LOAD USER DATA",e)}
+
         //Gestures
         mDetector = GestureDetectorCompat(this, this)
         mDetector.setOnDoubleTapListener(this)
 
-        startGame()
+
+    }
+
+    fun updateUI(){
+        displayName.text = user.name
+        wins.text = user.wins.toString()
+        losses.text = user.losses.toString()
+        chips.text = user.chips.toString()
     }
 
     fun logout(view: View) {
@@ -102,7 +124,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         val fragmentTransaction = fragmentManager.beginTransaction()
         val fragment = BetFragment()
         var bundle = Bundle()
-        bundle.putInt("chip count", chipCount)
+        bundle.putInt("chip count", user.chips)
         fragment.arguments = bundle
         fragmentTransaction.add(R.id.bet_fragment_container, fragment)
         fragmentTransaction.commit()
@@ -263,8 +285,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     fun betCallback(bet2: Int){
         betPlaced=true
         curBet = bet2
-        chipCount = chipCount - bet2
-        chips.text = chipCount.toString()
+        user.chips -= bet2
+        chips.text = user.chips.toString()
+        user.updatDatabase()
         dealInitialCards()
         updatePlayerValue()
 
@@ -273,7 +296,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
             betPlaced = false
             findWinner()
         }
-        //TODO UPDATE CHIPS
     }
 
     //Checks if player is over 21
@@ -291,10 +313,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         else {
             Toast.makeText(this, "You lost, new hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
         }
-
-        //TODO add loss to player stats, update the stats bar (Chips should already be removed from when they bet)
-        ++Ls
-        losses.text = Ls.toString()
+        ++user.losses
+        updateUI()
+        user.updatDatabase()
         flipDealerCard()
         Handler().postDelayed(this::startGame, 5000)
     }
@@ -303,26 +324,24 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     fun playerWon(){
         if(game.playerHand.cardList.size == 2 && game.playerHand.bestHand == 21){
             Toast.makeText(this, "BLACKJACK! Winner winner, chicken dinner!", Toast.LENGTH_LONG).show()
-            chipCount= (chipCount + 2*curBet + curBet/2)
+            user.chips = (user.chips + 2*curBet + curBet/2)
         }
         else {
             Toast.makeText(this, "You won! New hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
-            chipCount= (chipCount + 2*curBet)
+            user.chips= (user.chips + 2*curBet)
         }
-
-        //TODO add win to player stats, update the stats bar, add chips
-        ++Ws
-        wins.text = Ws.toString()
-        chips.text = chipCount.toString()
+        ++user.wins
+        updateUI()
+        user.updatDatabase()
         Handler().postDelayed(this::startGame, 5000)
     }
 
     //Alert the player that they pushed, had same value as dealer
     fun playerPush(){
         Toast.makeText(this, "Push. New hand starts in 5 seconds", Toast.LENGTH_LONG).show() //Alert them
-        //TODO add push to player stats, update the stats bar, add chips
-        chipCount= (chipCount + curBet)
-        chips.text = chipCount.toString()
+        user.chips= (user.chips + curBet)
+        updateUI()
+        user.updatDatabase()
         Handler().postDelayed(this::startGame, 5000)
     }
 
