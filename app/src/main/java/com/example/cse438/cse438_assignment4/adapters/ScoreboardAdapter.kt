@@ -1,57 +1,51 @@
-package com.google.firebase.example.fireeats.kotlin.adapter
+package com.example.cse438.cse438_assignment4.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.example.cse438.cse438_assignment4.R
-import com.example.cse438.cse438_assignment4.adapters.FirestoreAdapter
-import com.example.cse438.cse438_assignment4.util.Player
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.main.item_scoreboardentry.view.*
+import com.example.cse438.cse438_assignment4.util.User
 
+class ScoreboardViewHolder(inflater: LayoutInflater, parent : ViewGroup) :
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.item_scoreboardentry, parent, false)){
+    private val plName: TextView?
+    private val plChips: TextView?
+    private val plWins: TextView?
+    private val plLosses: TextView?
+    private val plContainer: LinearLayout?
+
+    //show playlists in a list
+    init {
+        plName = itemView.findViewById(R.id.playerName)
+        plChips = itemView.findViewById(R.id.playerChipCount)
+        plWins = itemView.findViewById(R.id.playerWins)
+        plLosses = itemView.findViewById(R.id.playerLosses)
+        plContainer = itemView.findViewById(R.id.sbContainer)
+    }
+
+    fun bind(pl: User) {
+        plName?.text = pl.name
+        plChips?.text = pl.chips.toString()
+        plWins?.text = pl.wins.toString()
+        plLosses?.text = pl.losses.toString()
+    }
+}
 /**
  * RecyclerView adapter for a list of Players.
  */
-open class ScoreboardAdapter(query: Query, private val listener: OnPlayerSelectedListener) :
-    FirestoreAdapter<ScoreboardAdapter.ViewHolder>(query) {
-
-    interface OnPlayerSelectedListener {
-
-        fun onPlayerSelected(player: DocumentSnapshot)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+class ScoreboardAdapter(private val players: ArrayList<User>?) : RecyclerView.Adapter<ScoreboardViewHolder>(){
+    private var listPlayers: ArrayList<User>? = players
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScoreboardViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(inflater.inflate(R.layout.item_scoreboardentry, parent, false))
+        return ScoreboardViewHolder(inflater, parent)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getSnapshot(position), listener)
+    override fun onBindViewHolder(holder: ScoreboardViewHolder, position: Int) {
+        val event: User = listPlayers!!.get(position)
+        holder.bind(event)
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        fun bind(
-            snapshot: DocumentSnapshot,
-            listener: OnPlayerSelectedListener?
-        ) {
-
-            val player = snapshot.toObject(Player::class.java)
-            if (player == null) {
-                return
-            }
-
-            itemView.playerName.text = player.name
-            itemView.playerChipCount.text = player.chips.toString()
-            itemView.playerWins.text = player.wins.toString()
-            itemView.playerLosses.text = player.losses.toString()
-
-            // Click listener
-            itemView.setOnClickListener {
-                listener?.onPlayerSelected(snapshot)
-            }
-        }
-    }
+    override fun getItemCount(): Int = players!!.size
 }
