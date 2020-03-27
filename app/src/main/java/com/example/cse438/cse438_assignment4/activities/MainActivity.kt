@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import androidx.core.view.GestureDetectorCompat
 import com.example.cse438.cse438_assignment4.R
 import com.example.cse438.cse438_assignment4.fragments.BetFragment
@@ -347,6 +348,15 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         Handler().postDelayed(this::startGame, 5000)
     }
 
+    fun profile(view: View){
+        var profileIntent = Intent(this, ProfileActivity::class.java)
+        profileIntent.putExtra("userName", user.name)
+        profileIntent.putExtra("userChips", user.chips.toString())
+        profileIntent.putExtra("userWins", user.wins.toString())
+        profileIntent.putExtra("userLosses", user.losses.toString())
+        profileIntent.putExtra("userId", user.id)
+        startActivity(profileIntent)
+    }
     fun leaderboard(view: View){
         var leadIntent = Intent(this, ScoreboardActivity::class.java)
         startActivity(leadIntent)

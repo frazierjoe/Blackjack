@@ -23,9 +23,15 @@
             android:onClick="leaderboard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.6"
             android:text="@string/leaderboard" />
-
+        <Button
+            android:id="@+id/profileBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:onClick="profile"
+            android:text="@string/profile"/>
         <Button
             android:id="@+id/logout_btn"
             android:onClick="logout"

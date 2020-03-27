@@ -4,7 +4,7 @@
     <string name="wins">Wins: </string>
     <string name="number_placeholder">0</string>
     <string name="chip_placeholder">1000</string>
-    <string name="name_placeholder">Doug</string>
+    <string name="name_placeholder">Doug Shook</string>
     <string name="losses">Losses: </string>
     <string name="logout">Logout</string>
     <string name="chips">Chips: </string>
@@ -24,5 +24,11 @@
     <string name="wins_leaderboard">Wins</string>
     <string name="losses_leaderboard">Losses</string>
     <string name="chips_leaderboard">Chips</string>
-
+    <string name="profile">Profile</string>
+    <string name="blackjacks">Blackjacks: </string>
+    <string name="ranking">Ranking: </string>
+    <string name="delete">Delete Account</string>
+    <string name="email">Email:</string>
+    <string name="new_password">New Password: </string>
+    <string name="save_changes">Save Changes</string>
 </resources>
