@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/table"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -15,10 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
         <TextView
+
             android:id="@+id/leaderText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/text"
             android:text="@string/leaderboard"
             android:gravity="center"
             android:textSize="25sp"
@@ -27,22 +29,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp">
+            android:layout_marginRight="26dp"
+            android:layout_marginLeft="26dp">
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:layout_marginRight="5dp"/>
-            <TextView
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/text"
                 android:textSize="20sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/player_name_leaderboard"/>
             <TextView
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/text"
                 android:textSize="20sp"
                 android:layout_width="0dp"
                 android:layout_weight="0.7"
@@ -51,7 +48,7 @@
                 android:text="@string/chips_leaderboard"/>
 
             <TextView
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/text"
                 android:textSize="20sp"
                 android:layout_width="0dp"
                 android:layout_weight="0.5"
@@ -60,7 +57,7 @@
                 android:text="@string/wins_leaderboard"/>
 
             <TextView
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/text"
                 android:textSize="20sp"
                 android:layout_width="0dp"
                 android:layout_weight="0.5"

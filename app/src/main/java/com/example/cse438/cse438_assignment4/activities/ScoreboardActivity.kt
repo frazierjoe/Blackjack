@@ -43,6 +43,5 @@ class ScoreboardActivity : AppCompatActivity() {
             recycler.layoutManager = LinearLayoutManager(this)
         }.addOnFailureListener { exception -> Log.w("TAG", "ERROR", exception) }
 
-        Toast.makeText(this, query.toString(), Toast.LENGTH_LONG).show()
     }
 }
