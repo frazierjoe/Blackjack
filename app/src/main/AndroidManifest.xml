@@ -15,6 +15,8 @@
             android:parentActivityName=".activities.MainActivity" />
         <activity android:name=".activities.MainActivity"
             android:parentActivityName=".activities.MainActivity"/>
+        <activity android:name=".activities.ProfileActivity"
+            android:parentActivityName=".activities.MainActivity"/>
         <activity
             android:name=".activities.LoginActivity">
             <intent-filter>
