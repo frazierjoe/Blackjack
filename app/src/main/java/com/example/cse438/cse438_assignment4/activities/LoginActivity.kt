@@ -16,7 +16,6 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-
 class LoginActivity: AppCompatActivity(){
     private val RC_SIGN_IN = 123
     private lateinit var auth: FirebaseAuth

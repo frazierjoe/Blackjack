@@ -17,7 +17,7 @@ class ScoreboardActivity : AppCompatActivity() {
     lateinit var firestore: FirebaseFirestore
     lateinit var query: Query
     //    private lateinit var viewModel: MainActivityViewModel
-//    lateinit var adapter : ScoreboardAdapter
+    //    lateinit var adapter : ScoreboardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
