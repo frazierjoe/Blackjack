@@ -32,7 +32,6 @@ class LoginActivity: AppCompatActivity(){
         }
     }
 
-
     fun showSignInOptions(){
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build())
@@ -46,6 +45,7 @@ class LoginActivity: AppCompatActivity(){
             RC_SIGN_IN
         )
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RC_SIGN_IN) {

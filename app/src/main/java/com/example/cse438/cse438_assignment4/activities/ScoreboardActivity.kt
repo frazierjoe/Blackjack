@@ -23,8 +23,8 @@ class ScoreboardActivity : AppCompatActivity() {
     lateinit var adapter : ScoreboardAdapter
     lateinit var recycler : RecyclerView
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scoreboard)
 
         firestore = FirebaseFirestore.getInstance()
@@ -34,15 +34,14 @@ class ScoreboardActivity : AppCompatActivity() {
             .limit(20)
 
         var playerList: ArrayList<User> = arrayListOf()
-        firestore.collection("users").get().addOnSuccessListener { result ->
+        firestore.collection("users").orderBy("chips", Query.Direction.DESCENDING).get().addOnSuccessListener { result ->
             for (document in result) {
                 playerList.add(document.toObject<User>())
-                recycler = playersRecyclerView
-                adapter = ScoreboardAdapter(playerList)
-                recycler.adapter = adapter
-                recycler.layoutManager = LinearLayoutManager(this)
-                Log.d("TAG", "${document.id} -> ${document.data}")
             }
+            recycler = playersRecyclerView
+            adapter = ScoreboardAdapter(playerList)
+            recycler.adapter = adapter
+            recycler.layoutManager = LinearLayoutManager(this)
         }.addOnFailureListener { exception -> Log.w("TAG", "ERROR", exception) }
 
         Toast.makeText(this, query.toString(), Toast.LENGTH_LONG).show()

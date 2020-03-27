@@ -27,7 +27,6 @@ class BetFragment : Fragment(), View.OnClickListener {
         btn.setOnClickListener(this)
         rbtn.setOnClickListener(this)
         return view
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,8 +61,17 @@ class BetFragment : Fragment(), View.OnClickListener {
                 }
             }
             R.id.rebet_btn -> {
-                activity!!.supportFragmentManager.beginTransaction().remove(this).commit()
-                (activity as MainActivity?)!!.betCallback(prevBet!!)
+                if(prevBet!! <= chipC!!) {
+                    activity!!.supportFragmentManager.beginTransaction().remove(this).commit()
+                    (activity as MainActivity?)!!.betCallback(prevBet!!)
+                }
+                else{
+                    Toast.makeText(
+                        getContext(),
+                        "Please only bet as many chips as you have (or less)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }

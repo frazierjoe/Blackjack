@@ -18,5 +18,4 @@ data class Game(var deck: Deck = Deck(), var dealerHand: Hand = Hand(), var play
             player.updateHandValue(context)
             return card
     }
-
 }
