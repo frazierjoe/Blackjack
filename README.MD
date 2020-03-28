@@ -49,7 +49,7 @@
 * Users can update their name, email and password but must be reauthenticated in order to do so.
 
 <img src="/BlackjackPics/UpdateProfile.gif" alt="Update Profile" width="200px"/>
-<img src="/BlackjackPics/Updatepassword.gif" alt="Update Password" width="200px"/>
+<img src="/BlackjackPics/UpdatePassword.gif" alt="Update Password" width="200px"/>
 
 * When an email is updated, a notification is sent to the users previous email to notify them of the change.
 
@@ -59,7 +59,7 @@
 
 * Users can delete their account (deletes from both Firebase Authentication and Firestore so they will be removed from the leaderboard.) After being deleted, the user is taken back to the login page.
 
-<img src="/BlackjackPics/DeleteAccount.png" alt="Delete account" width="200px"/>
+<img src="/BlackjackPics/DeleteAccount.gif" alt="Delete account" width="200px"/>
 
 * Firebase handles checking user passwords and emails by throwing an exception if the password doesn't meet their criteria or if the email isn't valid.
 
