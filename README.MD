@@ -38,7 +38,7 @@
 ## Leaderboard
 * Displays the top 20 users by chip count in a RecyclerView.
 
-<img src="/BlackjackPics/Leaderboard.git" alt="Leaderboard" width="200px"/>
+<img src="/BlackjackPics/Leaderboard.gif" alt="Leaderboard" width="200px"/>
 
 
 ## Profile
